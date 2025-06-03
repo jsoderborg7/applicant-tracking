@@ -8,9 +8,7 @@ from .models import Applicants, Jobs, Skills
 
 class IndexView(generic.ListView):
     template_name = "index.html"
+    context_object_name = "applicant_list"
     def get_queryset(self):
-        applicant_list = Applicants.objects.all()
-        skill_list = Skills.objects.all()
-        print(list(chain(applicant_list, skill_list)))
-        return list(chain(applicant_list, skill_list))
+        return Applicants.objects.all()
     
