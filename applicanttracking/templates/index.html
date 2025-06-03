@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>My test page</title>
+  </head>
+  <body>
+    <h1>Applicants</h1>
+    <ul>
+        {% for skill in object_list %}
+        <li>{{ skill.name}}</li>
+        {% endfor %}
+    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Applicant Name</th>
+                <th>Email Address</th>
+                <th>Website</th>
+                <th>Skills</th>
+                <th>Cover Letter Paragraph</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for applicant in object_list %}
+                <tr>
+                    <td>{{ applicant.job.name}}</td>
+                    <td>{{ applicant.name}}</td>
+                    <td>{{ applicant.email}}</td>
+                    <td>{{ applicant.website}}</td>
+                    <td>{{ applicant.name}}</td>
+                    <td>{{ applicant.cover_letter}}</td>
+                
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>
