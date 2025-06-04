@@ -7,8 +7,13 @@ from itertools import chain
 from .models import Applicants, Jobs, Skills
 
 class IndexView(generic.ListView):
+    model = Applicants
     template_name = "index.html"
-    context_object_name = "applicant_list"
-    def get_queryset(self):
-        return Applicants.objects.all()
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['jobs'] = Jobs.objects.all()
+        context['skills'] = Skills.objects.all()
+        context['unique_skills'] = Skills.objects.values_list('name', flat=True).distinct()
+        context['applicants'] = Applicants.objects.all()
+        return context

@@ -1,12 +1,28 @@
 <!doctype html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <title>My test page</title>
-  </head>
+    <head>
+        <title>Job Applicants Report</title>
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.9.1/build/cssbase/cssbase-min.css">
+        <style type="text/css">
+          #page {
+            width: 1200px;
+            margin: 30px auto;
+          }
+          .job-applicants {
+            width: 100%;
+          }
+          .job-name {
+            text-align: center;
+          }
+          .applicant-name {
+            width: 150px;
+          }
+        </style>
+      </head>
   <body>
-    <h1>Applicants</h1>
-    <table>
+    <div id="page">
+    <table class="job-applicants">
         <thead>
             <tr>
                 <th>Job</th>
@@ -18,23 +34,36 @@
             </tr>
         </thead>
         <tbody>
-                {% for applicant in applicant_list %}
-                <tr>
-                    <td>{{ applicant.job.name}}</td>
-                    <td>{{ applicant.name}}</td>
-                    <td>{{ applicant.email}}</td>
-                    <td>{{ applicant.website}}</td>
-                    
-                    <td>
-                        {% for skill in applicant.skills_set.all %}
-                        {{ skill.name}}
+            {% for job in jobs %}
+            <tr>
+                <td rowspan="10" class="job-name">{{job.name}}</td>
+                {% for applicant in applicants %}
+                    {% if applicant.job_id == job.id %}
+                    <tr>
+                    <td rowspan="{{applicant.skills_set.all.count}}" class="applicant-name">{{ applicant.name}}</td>
+                    <td rowspan="{{applicant.skills_set.all.count}}"><a href="mailto:{{applicant.email}}">{{applicant.email}}</a></td>
+                    <td rowspan="{{applicant.skills_set.all.count}}"><a href="http://{{applicant.website}}">{{applicant.website}}</a></td>
+                    <td>{{applicant.skills_set.first}}</td>
+                    <td rowspan="{{applicant.skills_set.all.count}}">{{ applicant.cover_letter}}</td>
+                        {% for skill in applicant.skills_set.all|slice:"1:" %}
+                            {% if applicant.skills_set.all.count > 1 %}
+                            <tr>
+                                <td>{{ skill.name}}</td>
+                            </tr>
+                            {% endif %}
                         {% endfor %}
-                    </td>
-                    <td>{{ applicant.cover_letter}}</td>
-                
-                </tr>
-                {% endfor %}
+                    </tr>
+                    {% endif %}     
+                {% endfor %}         
+            </tr>
+            {% endfor %}
+        </div>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">{{applicants.all.count}} Applicants, {{unique_skills.all.count}} Unique Skills </td>
+            </tr>
+        </tfoot>
     </table>
   </body>
 </html>
