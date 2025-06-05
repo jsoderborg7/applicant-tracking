@@ -36,7 +36,7 @@
         <tbody>
             {% for job in jobs %}
             <tr>
-                <td rowspan="10" class="job-name">{{job.name}}</td>
+                <td rowspan="{{job.skills_count}}" class="job-name">{{job.name}}</td>
                 {% for applicant in applicants %}
                     {% if applicant.job_id == job.id %}
                     <tr>

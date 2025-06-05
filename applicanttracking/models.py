@@ -14,7 +14,11 @@ class Jobs(models.Model):
     updated_at = models.DateTimeField()
     def __str__(self):
         return self.id
-
+    
+    # This method is custom made to use as the rowspan variable for the job name row
+    def skills_count(self):
+        applicants = Applicants.objects.filter(job=self)
+        return Skills.objects.filter(applicant__in=applicants).count() + 1
     class Meta:
         managed = False
         db_table = 'jobs'
