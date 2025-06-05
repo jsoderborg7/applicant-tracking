@@ -1,5 +1,7 @@
 To run this file:
+
  cd into objective-coding-test
+ 
  run python3 manage.py runserver
 
  Thanks!
